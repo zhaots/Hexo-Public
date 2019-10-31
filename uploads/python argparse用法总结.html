@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="," />
+
+
+<meta name="description" content="argparse介绍 argparse是python的一个命令行解析包，非常编写可读性非常好的程序">
+<meta name="keywords" content="Python argparse用法总结">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Python argparse用法总结">
+<meta property="og:url" content="http://www.hinote.ga/uploads/python argparse用法总结.html">
+<meta property="og:site_name" content="Zhaots&#39;s blog">
+<meta property="og:description" content="argparse介绍 argparse是python的一个命令行解析包，非常编写可读性非常好的程序">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-07T06:20:17.429Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python argparse用法总结">
+<meta name="twitter:description" content="argparse介绍 argparse是python的一个命令行解析包，非常编写可读性非常好的程序">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.hinote.ga/uploads/python argparse用法总结.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>Python argparse用法总结 | Zhaots's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhaots's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">帅的人已经醒来 而丑的人还在沉睡</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">Python argparse用法总结</h1>
+
+<div class="post-meta">
+  
+  
+
+
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h2 id="argparse介绍"><a href="#argparse介绍" class="headerlink" title="argparse介绍"></a><font color="##5CACEE">argparse介绍</font></h2><blockquote>
+<h6 id="argparse是python的一个命令行解析包，非常编写可读性非常好的程序"><a href="#argparse是python的一个命令行解析包，非常编写可读性非常好的程序" class="headerlink" title="argparse是python的一个命令行解析包，非常编写可读性非常好的程序"></a><font color="#030303">argparse是python的一个命令行解析包，非常编写可读性非常好的程序</font></h6></blockquote>
+<a id="more"></a>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a><font color="#CDAA7D">基本用法</font></h3><blockquote>
+<h6 id="tszhao-py是我在linux下测试argparse的文件，放在-root目录下，其内容如下："><a href="#tszhao-py是我在linux下测试argparse的文件，放在-root目录下，其内容如下：" class="headerlink" title="tszhao.py是我在linux下测试argparse的文件，放在/root目录下，其内容如下："></a><font color="#030303">tszhao.py是我在linux下测试argparse的文件，放在/root目录下，其内容如下：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.parse_args()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="测试如下："><a href="#测试如下：" class="headerlink" title="测试如下："></a><font color="#CDAA7D">测试如下：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# ./tszhao.py </span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py  --help</span><br><span class="line">usage: tszhao.py [-h]</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help  show this help message and exit</span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py  -v</span><br><span class="line">usage: tszhao.py  [-h]</span><br><span class="line">prog.py: error: unrecognized arguments: -v</span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py  -foo</span><br><span class="line">usage: tszhao.py  [-h]</span><br><span class="line">prog.py: error: unrecognized arguments: foo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">第一个没有任何输出和出错;</span><br><span class="line">第二个测试为打印帮助信息,argparse会自动生成帮助文档;</span><br><span class="line">第三个测试为未定义的-v参数,会出错;</span><br><span class="line">第四个测试为未定义的参数foo,会出错;</span><br></pre></td></tr></table></figure>
+<h3 id="positional-arguments"><a href="#positional-arguments" class="headerlink" title="positional arguments"></a><font color="##5CACEE">positional arguments</font></h3><blockquote>
+<h6 id="positional-arguments为英文定义，中文名叫有翻译为定位参数的，用法是不用带-就可用修改tszhao-py的内容如下："><a href="#positional-arguments为英文定义，中文名叫有翻译为定位参数的，用法是不用带-就可用修改tszhao-py的内容如下：" class="headerlink" title="positional arguments为英文定义，中文名叫有翻译为定位参数的，用法是不用带-就可用修改tszhao.py的内容如下："></a><font color="#030303">positional arguments为英文定义，中文名叫有翻译为定位参数的，用法是不用带-就可用修改tszhao.py的内容如下：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(&quot;echo&quot;)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">print args.echo</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="执行测试如下"><a href="#执行测试如下" class="headerlink" title="执行测试如下:"></a><font color="#CDAA7D">执行测试如下:</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# python tszhao.py </span><br><span class="line">usage: tszhao.py [-h] echo</span><br><span class="line">tszhao.py: error: too few arguments</span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py -h</span><br><span class="line">usage: tszhao.py [-h] echo</span><br><span class="line"></span><br><span class="line">positional arguments:</span><br><span class="line">  echo</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help  show this help message and exit</span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py hello</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="定义了一个叫echo的参数，默认必选"><a href="#定义了一个叫echo的参数，默认必选" class="headerlink" title="定义了一个叫echo的参数，默认必选"></a><font color="#CDAA7D">定义了一个叫echo的参数，默认必选</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一个测试为不带参数，由于echo参数为空，所以报错，并给出用法（usage）和错误信息 </span><br><span class="line">第二个测试为打印帮助信息</span><br><span class="line">第三个测试为正常用法，回显了输入字符串hello</span><br></pre></td></tr></table></figure>
+<h3 id="optional-arguments"><a href="#optional-arguments" class="headerlink" title="optional arguments"></a><font color="##5CACEE">optional arguments</font></h3><blockquote>
+<h6 id="中文名叫可选参数，有两种方式："><a href="#中文名叫可选参数，有两种方式：" class="headerlink" title="中文名叫可选参数，有两种方式："></a><font color="#CDAA7D">中文名叫可选参数，有两种方式：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">一种是通过一个-来指定的短参数，如-h；</span><br><span class="line">一种是通过--来指定的长参数，如--help</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="这两种方式可以同存，也可以只存在一个，修改tszhao-py内容如下"><a href="#这两种方式可以同存，也可以只存在一个，修改tszhao-py内容如下" class="headerlink" title="这两种方式可以同存，也可以只存在一个，修改tszhao.py内容如下:"></a><font color="#CDAA7D">这两种方式可以同存，也可以只存在一个，修改tszhao.py内容如下:</font></h6></blockquote>
+<figure class="highlight plain"><figcaption><span>python</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(&quot;-v&quot;, &quot;--verbosity&quot;, help=&quot;increase output verbosity&quot;)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">if args.verbosity:</span><br><span class="line">    print &quot;verbosity turned on&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="注意这一行：parser-add-argument-“-v”-“–verbosity”-help-”increase-output-verbosity”-定义了可选参数-v或–verbosity，通过解析后，其值保存在args-verbosity变量中"><a href="#注意这一行：parser-add-argument-“-v”-“–verbosity”-help-”increase-output-verbosity”-定义了可选参数-v或–verbosity，通过解析后，其值保存在args-verbosity变量中" class="headerlink" title="注意这一行：parser.add_argument(“-v”, “–verbosity”, help=”increase output verbosity”)定义了可选参数-v或–verbosity，通过解析后，其值保存在args.verbosity变量中"></a><font color="#B03060">注意这一行：parser.add_argument(“-v”, “–verbosity”, help=”increase output verbosity”)定义了可选参数-v或–verbosity，通过解析后，其值保存在args.verbosity变量中</font></h6></blockquote>
+<blockquote>
+<p>用法如下：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# ./tszhao.py -v 1</span><br><span class="line">verbosity turned on</span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py --verbosity 1</span><br><span class="line">verbosity turned on</span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py -h</span><br><span class="line">usage: tszhao.py [-h] [-v VERBOSITY]</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  -v VERBOSITY, --verbosity VERBOSITY</span><br><span class="line">                        increase output verbosity</span><br><span class="line"></span><br><span class="line">root@VM-155-173-debian:~# ./tszhao.py -v </span><br><span class="line">usage: tszhao.py [-h] [-v VERBOSITY]</span><br><span class="line">tszhao.py: error: argument -v/--verbosity: expected one argument</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">测试1中，通过-v来指定参数值;</span><br><span class="line">测试2中，通过--verbosity来指定参数值;</span><br><span class="line">测试3中，通过-h来打印帮助信息;</span><br><span class="line">测试4中，没有给-v指定参数值，所以会报错;</span><br></pre></td></tr></table></figure>
+<h3 id="action-’store-true’"><a href="#action-’store-true’" class="headerlink" title="action=’store_true’"></a><font color="##5CACEE">action=’store_true’</font></h3><blockquote>
+<h6 id="上一个用法中-v必须指定参数值，否则就会报错，有没有像h那样，不需要指定参数值的呢，答案是有，通过定义参数时指定action-”store-true”即可，用法如下"><a href="#上一个用法中-v必须指定参数值，否则就会报错，有没有像h那样，不需要指定参数值的呢，答案是有，通过定义参数时指定action-”store-true”即可，用法如下" class="headerlink" title="上一个用法中-v必须指定参数值，否则就会报错，有没有像h那样，不需要指定参数值的呢，答案是有，通过定义参数时指定action=”store_true”即可，用法如下"></a><font color="#030303">上一个用法中-v必须指定参数值，否则就会报错，有没有像h那样，不需要指定参数值的呢，答案是有，通过定义参数时指定action=”store_true”即可，用法如下</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(&quot;-v&quot;, &quot;--verbose&quot;, help=&quot;increase output verbosity&quot;,</span><br><span class="line">                    action=&quot;store_true&quot;)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">if args.verbose:</span><br><span class="line">        print &quot;verbosity turned on&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="测试："><a href="#测试：" class="headerlink" title="测试："></a><font color="#CDAA7D">测试：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# python tszhao.py -v</span><br><span class="line">verbosity turned on</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py -h</span><br><span class="line">usage: tszhao.py [-h] [-v]</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help     show this help message and exit</span><br><span class="line">  -v, --verbose  increase output verbosity</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="第一个例子中，-v没有指定任何参数也可，其实存的是True和False，如果出现，则其值为True，否则为False"><a href="#第一个例子中，-v没有指定任何参数也可，其实存的是True和False，如果出现，则其值为True，否则为False" class="headerlink" title="第一个例子中，-v没有指定任何参数也可，其实存的是True和False，如果出现，则其值为True，否则为False"></a><font color="#B03060">第一个例子中，-v没有指定任何参数也可，其实存的是True和False，如果出现，则其值为True，否则为False</font></h6></blockquote>
+<h3 id="type类型-type"><a href="#type类型-type" class="headerlink" title="type类型 type"></a><font color="##5CACEE">type类型 type</font></h3><blockquote>
+<h6 id="默认的参数类型为str，如果要进行数学计算，需要对参数进行解析后进行类型转换，如果不能转换则需要报错，这样比较麻烦argparse提供了对参数类型的解析，如果类型不符合，则直接报错。如下是对参数进行平方计算的程序："><a href="#默认的参数类型为str，如果要进行数学计算，需要对参数进行解析后进行类型转换，如果不能转换则需要报错，这样比较麻烦argparse提供了对参数类型的解析，如果类型不符合，则直接报错。如下是对参数进行平方计算的程序：" class="headerlink" title="默认的参数类型为str，如果要进行数学计算，需要对参数进行解析后进行类型转换，如果不能转换则需要报错，这样比较麻烦argparse提供了对参数类型的解析，如果类型不符合，则直接报错。如下是对参数进行平方计算的程序："></a><font color="#030303">默认的参数类型为str，如果要进行数学计算，需要对参数进行解析后进行类型转换，如果不能转换则需要报错，这样比较麻烦argparse提供了对参数类型的解析，如果类型不符合，则直接报错。如下是对参数进行平方计算的程序：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(&apos;x&apos;, type=int, help=&quot;the base&quot;)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">answer = args.x ** 2</span><br><span class="line">print answer</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="测试：-1"><a href="#测试：-1" class="headerlink" title="测试："></a><font color="#CDAA7D">测试：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# python tszhao.py -h</span><br><span class="line">usage: tszhao.py [-h] [-v]</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help     show this help message and exit</span><br><span class="line">  -v, --verbose  increase output verbosity</span><br><span class="line">root@VM-155-173-debian:~# vim tszhao.py </span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 2</span><br><span class="line">4</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py two</span><br><span class="line">usage: tszhao.py [-h] x</span><br><span class="line">tszhao.py: error: argument x: invalid int value: &apos;two&apos;</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py -h</span><br><span class="line">usage: tszhao.py [-h] x</span><br><span class="line"></span><br><span class="line">positional arguments:</span><br><span class="line">  x           the base</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help  show this help message and exit</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一个测试为计算2的平方数，类型为int，正常;</span><br><span class="line">第二个测试为一个非int数，报错;</span><br><span class="line">第三个为打印帮助信息;</span><br></pre></td></tr></table></figure>
+<h3 id="可选值choices"><a href="#可选值choices" class="headerlink" title="可选值choices=[]"></a><font color="##5CACEE">可选值choices=[]</font></h3><blockquote>
+<h6 id="5中的action的例子中定义了默认值为True和False的方式，如果要限定某个值的取值范围，比如6中的整形，限定其取值范围为0，-1，-2，该如何进行呢？修改tszhao-py文件如下："><a href="#5中的action的例子中定义了默认值为True和False的方式，如果要限定某个值的取值范围，比如6中的整形，限定其取值范围为0，-1，-2，该如何进行呢？修改tszhao-py文件如下：" class="headerlink" title="5中的action的例子中定义了默认值为True和False的方式，如果要限定某个值的取值范围，比如6中的整形，限定其取值范围为0， 1， 2，该如何进行呢？修改tszhao.py文件如下："></a><font color="#030303">5中的action的例子中定义了默认值为True和False的方式，如果要限定某个值的取值范围，比如6中的整形，限定其取值范围为0， 1， 2，该如何进行呢？修改tszhao.py文件如下：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(&quot;square&quot;, type=int,</span><br><span class="line">                    help=&quot;display a square of a given number&quot;)</span><br><span class="line">parser.add_argument(&quot;-v&quot;, &quot;--verbosity&quot;, type=int, choices=[0, 1, 2],</span><br><span class="line">                    help=&quot;increase output verbosity&quot;)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">answer = args.square**2</span><br><span class="line">if args.verbosity == 2:</span><br><span class="line">    print &quot;the square of &#123;&#125; equals &#123;&#125;&quot;.format(args.square, answer)</span><br><span class="line">elif args.verbosity == 1:</span><br><span class="line">    print &quot;&#123;&#125;^2 == &#123;&#125;&quot;.format(args.square, answer)</span><br><span class="line">else:</span><br><span class="line">    print answer</span><br><span class="line"> `</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="测试：-2"><a href="#测试：-2" class="headerlink" title="测试："></a><font color="#CDAA7D">测试：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# python tszhao.py 4 -v 0</span><br><span class="line">16</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 4 -v 1</span><br><span class="line">4^2 == 16</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 4 -v 2</span><br><span class="line">the square of 4 equals 16</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 4 -v 3</span><br><span class="line">usage: tszhao.py [-h] [-v &#123;0,1,2&#125;] square</span><br><span class="line">tszhao.py: error: argument -v/--verbosity: invalid choice: 3 (choose from 0, 1, 2)</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 4 -h</span><br><span class="line">usage: tszhao.py [-h] [-v &#123;0,1,2&#125;] square</span><br><span class="line"></span><br><span class="line">positional arguments:</span><br><span class="line">  square                display a square of a given number</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  -v &#123;0,1,2&#125;, --verbosity &#123;0,1,2&#125;</span><br><span class="line">                        increase output verbosity</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">测试1， 2， 3 为可选值范围，通过其值，打印不同的格式输出;</span><br><span class="line">测试4的verbosity值不在可选值范围内，打印错误;</span><br><span class="line">测试5打印帮助信息;</span><br></pre></td></tr></table></figure>
+<h3 id="自定义帮助信息help"><a href="#自定义帮助信息help" class="headerlink" title="自定义帮助信息help"></a><font color="##5CACEE">自定义帮助信息help</font></h3><blockquote>
+<h6 id="上面很多例子中都为help赋值-如"><a href="#上面很多例子中都为help赋值-如" class="headerlink" title="上面很多例子中都为help赋值,如"></a><font color="#030303">上面很多例子中都为help赋值,如</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(&quot;square&quot;, type=int, help=&quot;display a square of a given number&quot;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="在打印输出时，会有如下内容"><a href="#在打印输出时，会有如下内容" class="headerlink" title="在打印输出时，会有如下内容"></a><font color="#030303">在打印输出时，会有如下内容</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">positional arguments:</span><br><span class="line">  square                display a square of a given number</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="也就是help为什么，打印输出时，就会显示什么"><a href="#也就是help为什么，打印输出时，就会显示什么" class="headerlink" title="也就是help为什么，打印输出时，就会显示什么"></a><font color="#030303">也就是help为什么，打印输出时，就会显示什么</font></h6></blockquote>
+<h3 id="程序用法帮助"><a href="#程序用法帮助" class="headerlink" title="程序用法帮助"></a><font color="##5CACEE">程序用法帮助</font></h3><blockquote>
+<h6 id="8中介绍了为每个参数定义帮助文档，那么给整个程序定义帮助文档该怎么进行呢？通过argparse-ArgumentParser-description-”calculate-X-to-the-power-of-Y”-即可："><a href="#8中介绍了为每个参数定义帮助文档，那么给整个程序定义帮助文档该怎么进行呢？通过argparse-ArgumentParser-description-”calculate-X-to-the-power-of-Y”-即可：" class="headerlink" title="8中介绍了为每个参数定义帮助文档，那么给整个程序定义帮助文档该怎么进行呢？通过argparse.ArgumentParser(description=”calculate X to the power of Y”)即可："></a><font color="#030303">8中介绍了为每个参数定义帮助文档，那么给整个程序定义帮助文档该怎么进行呢？通过argparse.ArgumentParser(description=”calculate X to the power of Y”)即可：</font></h6></blockquote>
+<blockquote>
+<h6 id="修改tszhao-py内容如下："><a href="#修改tszhao-py内容如下：" class="headerlink" title="修改tszhao.py内容如下："></a><font color="#CDAA7D">修改tszhao.py内容如下：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(description=&quot;calculate X to the power of Y&quot;)</span><br><span class="line">group = parser.add_mutually_exclusive_group()</span><br><span class="line">group.add_argument(&quot;-v&quot;, &quot;--verbose&quot;, action=&quot;store_true&quot;)</span><br><span class="line">group.add_argument(&quot;-q&quot;, &quot;--quiet&quot;, action=&quot;store_true&quot;)</span><br><span class="line">parser.add_argument(&quot;x&quot;, type=int, help=&quot;the base&quot;)</span><br><span class="line">parser.add_argument(&quot;y&quot;, type=int, help=&quot;the exponent&quot;)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">answer = args.x**args.y</span><br><span class="line"></span><br><span class="line">if args.quiet:</span><br><span class="line">    print answer</span><br><span class="line">elif args.verbose:</span><br><span class="line">    print &quot;&#123;&#125; to the power &#123;&#125; equals &#123;&#125;&quot;.format(args.x, args.y, answer)</span><br><span class="line">else:</span><br><span class="line">    print &quot;&#123;&#125;^&#123;&#125; == &#123;&#125;&quot;.format(args.x, args.y, answer)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="打印帮助信息时即显示calculate-X-to-the-power-of-Y"><a href="#打印帮助信息时即显示calculate-X-to-the-power-of-Y" class="headerlink" title="打印帮助信息时即显示calculate X to the power of Y"></a><font color="#B03060">打印帮助信息时即显示calculate X to the power of Y</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# python tszhao.py -h</span><br><span class="line">usage: tszhao.py [-h] [-v | -q] x y</span><br><span class="line"></span><br><span class="line">calculate X to the power of Y</span><br><span class="line"></span><br><span class="line">positional arguments:</span><br><span class="line">  x              the base</span><br><span class="line">  y              the exponent</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help     show this help message and exit</span><br><span class="line">  -v, --verbose</span><br><span class="line">  -q, --quiet</span><br></pre></td></tr></table></figure>
+<h3 id="互斥参数"><a href="#互斥参数" class="headerlink" title="互斥参数"></a><font color="##5CACEE">互斥参数</font></h3><blockquote>
+<h6 id="在上个例子中介绍了互斥的参数"><a href="#在上个例子中介绍了互斥的参数" class="headerlink" title="在上个例子中介绍了互斥的参数"></a><font color="#CDAA7D">在上个例子中介绍了互斥的参数</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">group = parser.add_mutually_exclusive_group()</span><br><span class="line">group.add_argument(&quot;-v&quot;, &quot;--verbose&quot;, action=&quot;store_true&quot;)</span><br><span class="line">group.add_argument(&quot;-q&quot;, &quot;--quiet&quot;, action=&quot;store_true&quot;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="第一行定义了一个互斥组，第二、三行在互斥组中添加了-v和-q两个参数，用上个例子中的程序进行如下测试："><a href="#第一行定义了一个互斥组，第二、三行在互斥组中添加了-v和-q两个参数，用上个例子中的程序进行如下测试：" class="headerlink" title="第一行定义了一个互斥组，第二、三行在互斥组中添加了-v和-q两个参数，用上个例子中的程序进行如下测试："></a><font color="#030303">第一行定义了一个互斥组，第二、三行在互斥组中添加了-v和-q两个参数，用上个例子中的程序进行如下测试：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# python tszhao.py  4 2</span><br><span class="line">4^2 == 16</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py  4 2 -v</span><br><span class="line">4 to the power 2 equals 16</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py  4 2 -q</span><br><span class="line">16</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py  4 2 -q -v</span><br><span class="line">usage: tszhao.py [-h] [-v | -q] x y</span><br><span class="line">tszhao.py: error: argument -v/--verbose: not allowed with argument -q/--quiet</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="可以看出，-q和-v不出现，或仅出现一个都可以，同时出现就会报错。可定义多个互斥组"><a href="#可以看出，-q和-v不出现，或仅出现一个都可以，同时出现就会报错。可定义多个互斥组" class="headerlink" title="可以看出，-q和-v不出现，或仅出现一个都可以，同时出现就会报错。可定义多个互斥组"></a><font color="#B03060">可以看出，-q和-v不出现，或仅出现一个都可以，同时出现就会报错。可定义多个互斥组</font></h6></blockquote>
+<h3 id="参数默认值-font-gt"><a href="#参数默认值-font-gt" class="headerlink" title="参数默认值/font&gt;"></a><font color="##5CACEE">参数默认值/font&gt;</font></h3><blockquote>
+<h6 id="介绍了这么多，有没有参数默认值该如何定义呢？"><a href="#介绍了这么多，有没有参数默认值该如何定义呢？" class="headerlink" title="介绍了这么多，有没有参数默认值该如何定义呢？"></a><font color="#CDAA7D">介绍了这么多，有没有参数默认值该如何定义呢？</font></h6></blockquote>
+<blockquote>
+<h6 id="修改tszhao-py内容如下：-1"><a href="#修改tszhao-py内容如下：-1" class="headerlink" title="修改tszhao.py内容如下："></a><font color="#CDAA7D">修改tszhao.py内容如下：</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(description=&quot;calculate X to the power of Y&quot;)</span><br><span class="line">parser.add_argument(&quot;square&quot;, type=int,</span><br><span class="line">                    help=&quot;display a square of a given number&quot;)</span><br><span class="line">parser.add_argument(&quot;-v&quot;, &quot;--verbosity&quot;, type=int, choices=[0, 1, 2], default=1,</span><br><span class="line">                    help=&quot;increase output verbosity&quot;)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">answer = args.square**2</span><br><span class="line">if args.verbosity == 2:</span><br><span class="line">    print &quot;the square of &#123;&#125; equals &#123;&#125;&quot;.format(args.square, answer)</span><br><span class="line">elif args.verbosity == 1:</span><br><span class="line">    print &quot;&#123;&#125;^2 == &#123;&#125;&quot;.format(args.square, answer)</span><br><span class="line">else:</span><br><span class="line">    print answer</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="测试结果如下：-lt-font结果如下-gt"><a href="#测试结果如下：-lt-font结果如下-gt" class="headerlink" title="测试结果如下：&lt;/font结果如下&gt;"></a><font color="#CDAA7D">测试结果如下：&lt;/font结果如下&gt;</font></h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@VM-155-173-debian:~# python tszhao.py 8</span><br><span class="line">8^2 == 64</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 8 -v 0</span><br><span class="line">64</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 8 -v 1</span><br><span class="line">8^2 == 64</span><br><span class="line">root@VM-155-173-debian:~# python tszhao.py 8 -v 2</span><br><span class="line">the square of 8 equals 64</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="可以看到如果不指定-v的值，args-verbosity的值默认为1，为了更清楚的看到默认值，也可以直接打印进行测试。"><a href="#可以看到如果不指定-v的值，args-verbosity的值默认为1，为了更清楚的看到默认值，也可以直接打印进行测试。" class="headerlink" title="可以看到如果不指定-v的值，args.verbosity的值默认为1，为了更清楚的看到默认值，也可以直接打印进行测试。"></a><font color="#B03060">可以看到如果不指定-v的值，args.verbosity的值默认为1，为了更清楚的看到默认值，也可以直接打印进行测试。</font></h6></blockquote>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+
+
+
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Zhaots's" />
+            
+              <p class="site-author-name" itemprop="name">Zhaots's</p>
+              <p class="site-description motion-element" itemprop="description">帅的人已经醒来 而丑的人还在沉睡</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/yunfwe" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#argparse介绍"><span class="nav-number">1.</span> <span class="nav-text">argparse介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#argparse是python的一个命令行解析包，非常编写可读性非常好的程序"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">argparse是python的一个命令行解析包，非常编写可读性非常好的程序</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tszhao-py是我在linux下测试argparse的文件，放在-root目录下，其内容如下："><span class="nav-number">1.1.0.0.1.</span> <span class="nav-text">tszhao.py是我在linux下测试argparse的文件，放在/root目录下，其内容如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#测试如下："><span class="nav-number">1.1.0.0.2.</span> <span class="nav-text">测试如下：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#positional-arguments"><span class="nav-number">1.2.</span> <span class="nav-text">positional arguments</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#positional-arguments为英文定义，中文名叫有翻译为定位参数的，用法是不用带-就可用修改tszhao-py的内容如下："><span class="nav-number">1.2.0.0.1.</span> <span class="nav-text">positional arguments为英文定义，中文名叫有翻译为定位参数的，用法是不用带-就可用修改tszhao.py的内容如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#执行测试如下"><span class="nav-number">1.2.0.0.2.</span> <span class="nav-text">执行测试如下:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#定义了一个叫echo的参数，默认必选"><span class="nav-number">1.2.0.0.3.</span> <span class="nav-text">定义了一个叫echo的参数，默认必选</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#optional-arguments"><span class="nav-number">1.3.</span> <span class="nav-text">optional arguments</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#中文名叫可选参数，有两种方式："><span class="nav-number">1.3.0.0.1.</span> <span class="nav-text">中文名叫可选参数，有两种方式：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#这两种方式可以同存，也可以只存在一个，修改tszhao-py内容如下"><span class="nav-number">1.3.0.0.2.</span> <span class="nav-text">这两种方式可以同存，也可以只存在一个，修改tszhao.py内容如下:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#注意这一行：parser-add-argument-“-v”-“–verbosity”-help-”increase-output-verbosity”-定义了可选参数-v或–verbosity，通过解析后，其值保存在args-verbosity变量中"><span class="nav-number">1.3.0.0.3.</span> <span class="nav-text">注意这一行：parser.add_argument(“-v”, “–verbosity”, help=”increase output verbosity”)定义了可选参数-v或–verbosity，通过解析后，其值保存在args.verbosity变量中</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#action-’store-true’"><span class="nav-number">1.4.</span> <span class="nav-text">action=’store_true’</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#上一个用法中-v必须指定参数值，否则就会报错，有没有像h那样，不需要指定参数值的呢，答案是有，通过定义参数时指定action-”store-true”即可，用法如下"><span class="nav-number">1.4.0.0.1.</span> <span class="nav-text">上一个用法中-v必须指定参数值，否则就会报错，有没有像h那样，不需要指定参数值的呢，答案是有，通过定义参数时指定action=”store_true”即可，用法如下</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#测试："><span class="nav-number">1.4.0.0.2.</span> <span class="nav-text">测试：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#第一个例子中，-v没有指定任何参数也可，其实存的是True和False，如果出现，则其值为True，否则为False"><span class="nav-number">1.4.0.0.3.</span> <span class="nav-text">第一个例子中，-v没有指定任何参数也可，其实存的是True和False，如果出现，则其值为True，否则为False</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type类型-type"><span class="nav-number">1.5.</span> <span class="nav-text">type类型 type</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#默认的参数类型为str，如果要进行数学计算，需要对参数进行解析后进行类型转换，如果不能转换则需要报错，这样比较麻烦argparse提供了对参数类型的解析，如果类型不符合，则直接报错。如下是对参数进行平方计算的程序："><span class="nav-number">1.5.0.0.1.</span> <span class="nav-text">默认的参数类型为str，如果要进行数学计算，需要对参数进行解析后进行类型转换，如果不能转换则需要报错，这样比较麻烦argparse提供了对参数类型的解析，如果类型不符合，则直接报错。如下是对参数进行平方计算的程序：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#测试：-1"><span class="nav-number">1.5.0.0.2.</span> <span class="nav-text">测试：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选值choices"><span class="nav-number">1.6.</span> <span class="nav-text">可选值choices=[]</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#5中的action的例子中定义了默认值为True和False的方式，如果要限定某个值的取值范围，比如6中的整形，限定其取值范围为0，-1，-2，该如何进行呢？修改tszhao-py文件如下："><span class="nav-number">1.6.0.0.1.</span> <span class="nav-text">5中的action的例子中定义了默认值为True和False的方式，如果要限定某个值的取值范围，比如6中的整形，限定其取值范围为0， 1， 2，该如何进行呢？修改tszhao.py文件如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#测试：-2"><span class="nav-number">1.6.0.0.2.</span> <span class="nav-text">测试：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义帮助信息help"><span class="nav-number">1.7.</span> <span class="nav-text">自定义帮助信息help</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#上面很多例子中都为help赋值-如"><span class="nav-number">1.7.0.0.1.</span> <span class="nav-text">上面很多例子中都为help赋值,如</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#在打印输出时，会有如下内容"><span class="nav-number">1.7.0.0.2.</span> <span class="nav-text">在打印输出时，会有如下内容</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#也就是help为什么，打印输出时，就会显示什么"><span class="nav-number">1.7.0.0.3.</span> <span class="nav-text">也就是help为什么，打印输出时，就会显示什么</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序用法帮助"><span class="nav-number">1.8.</span> <span class="nav-text">程序用法帮助</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#8中介绍了为每个参数定义帮助文档，那么给整个程序定义帮助文档该怎么进行呢？通过argparse-ArgumentParser-description-”calculate-X-to-the-power-of-Y”-即可："><span class="nav-number">1.8.0.0.1.</span> <span class="nav-text">8中介绍了为每个参数定义帮助文档，那么给整个程序定义帮助文档该怎么进行呢？通过argparse.ArgumentParser(description=”calculate X to the power of Y”)即可：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#修改tszhao-py内容如下："><span class="nav-number">1.8.0.0.2.</span> <span class="nav-text">修改tszhao.py内容如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#打印帮助信息时即显示calculate-X-to-the-power-of-Y"><span class="nav-number">1.8.0.0.3.</span> <span class="nav-text">打印帮助信息时即显示calculate X to the power of Y</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互斥参数"><span class="nav-number">1.9.</span> <span class="nav-text">互斥参数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#在上个例子中介绍了互斥的参数"><span class="nav-number">1.9.0.0.1.</span> <span class="nav-text">在上个例子中介绍了互斥的参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#第一行定义了一个互斥组，第二、三行在互斥组中添加了-v和-q两个参数，用上个例子中的程序进行如下测试："><span class="nav-number">1.9.0.0.2.</span> <span class="nav-text">第一行定义了一个互斥组，第二、三行在互斥组中添加了-v和-q两个参数，用上个例子中的程序进行如下测试：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#可以看出，-q和-v不出现，或仅出现一个都可以，同时出现就会报错。可定义多个互斥组"><span class="nav-number">1.9.0.0.3.</span> <span class="nav-text">可以看出，-q和-v不出现，或仅出现一个都可以，同时出现就会报错。可定义多个互斥组</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数默认值-font-gt"><span class="nav-number">1.10.</span> <span class="nav-text">参数默认值/font&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#介绍了这么多，有没有参数默认值该如何定义呢？"><span class="nav-number">1.10.0.0.1.</span> <span class="nav-text">介绍了这么多，有没有参数默认值该如何定义呢？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#修改tszhao-py内容如下：-1"><span class="nav-number">1.10.0.0.2.</span> <span class="nav-text">修改tszhao.py内容如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#测试结果如下：-lt-font结果如下-gt"><span class="nav-number">1.10.0.0.3.</span> <span class="nav-text">测试结果如下：&lt;/font结果如下&gt;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#可以看到如果不指定-v的值，args-verbosity的值默认为1，为了更清楚的看到默认值，也可以直接打印进行测试。"><span class="nav-number">1.10.0.0.4.</span> <span class="nav-text">可以看到如果不指定-v的值，args.verbosity的值默认为1，为了更清楚的看到默认值，也可以直接打印进行测试。</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhaots's</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">25k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点总阅读时长">0:25</span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<script>
+var OriginTitile = document.title;
+ var titleTime;
+ document.addEventListener('visibilitychange', function () {
+     if (document.hidden) {
+         $('[rel="icon"]').attr('href', "/img/TEP.ico");
+         document.title = '╭(°A°`)╮ 页面崩溃啦 ~ ';
+         clearTimeout(titleTime);
+     }
+     else {
+         $('[rel="icon"]').attr('href', "/favicon.ico");
+         document.title = '(ฅ>ω<*ฅ) 噫又好了~' + OriginTitile;
+         titleTime = setTimeout(function () {
+             document.title = OriginTitile;
+         }, 2000);
+     }
+ });
+</script>
+</html>
